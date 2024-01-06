@@ -2,24 +2,24 @@
 
 include "config.php"; 
 
-if (isset($_GET['id'])) {
+if (isset($_GET['deleteid'])) {
 
-    $user_id = $_GET['id'];
+    $id = $_GET['deleteid'];
+//delete query
+    $sql = "DELETE FROM coursereg WHERE id=$id";
 
-    $sql = "DELETE FROM `coursereg` WHERE `id`='$user_id'";
+     $result = mysqli_query($conn, $sql);
 
-     $result = $conn->query($sql);
+     if ($result) {
 
-     if ($result == TRUE) {
-
-        echo "Record deleted successfully.";
+        // echo "Record deleted successfully.";
+        header('location:view.php');
 
     }else{
-
-        echo "Error:" . $sql . "<br>" . $conn->error;
-
+        die(mysqli_error($conn));
     }
 
 } 
 
 ?>
+

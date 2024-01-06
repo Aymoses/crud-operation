@@ -1,103 +1,80 @@
 <?php 
 
-include "config.php";
+   include "config.php";
+  
+   if(isset($_POST['update'])){
+    $CourseCode =$_POST['CourseCode'];
+    $CourseTitle =$_POST['CourseTitle'];
+    $Units =$_POST['Units'];
+    $id = $_POST['id'];
+  
+    $sql="UPDATE coursereg SET  CourseCode ='$CourseCode', CourseTitle ='$CourseTitle', Units='$Units' 
+    WHERE id= '$id'";
 
-    if (isset($_POST['update'])) {
+  // var_dump($sql);
+    $result=mysqli_query($conn, $sql);
+    if($result){
+      echo "Updated successfully";
+    }else{
+      die(mysqli_error($conn));
+  
+    }
+     header('location:view.php');
+  }
+  
 
-        $firstname = $_POST['CourseCode'];
+    $id = $_GET['updateid'];
+    $sql= "SELECT *FROM coursereg Where id ='$id'";
+    $result=mysqli_query($conn, $sql);
 
-        $lastname = $_POST['CourseTitle'];
-
-        $email = $_POST['Units']; 
-
-        $user_id = $_POST['user_id'];
-
-        $sql = "UPDATE 'coursereg' SET 'CourseCode'='$CourseCode','CourseTitle'='$CourseTitle','Units'='$Units' WHERE 'id'='$user_id'"; 
-
-        $result = $conn->query($sql); 
-
-        if ($result == TRUE) {
-
-            echo "Record updated successfully.";
-
-        }else{
-
-            echo "Error:" . $sql . "<br>" . $conn->error;
-
-        }
-
-    } 
-
-if (isset($_GET['id'])) {
-
-    $user_id = $_GET['id']; 
-
-    $sql = "SELECT * FROM coursereg WHERE 'id'='$user_id'";
-
-    $result = $conn->query($sql); 
-
-    if ($result->num_rows > 0) {        
-
-        while ($row = $result->fetch_assoc()) {
-
-            $CourseCode = $row['CourseCode'];
-
-            $CourseTitle = $row['CourseTitle'];
-
-            $Units = $row['Units'];
-
-            $id = $row['id'];
-
-        } 
+    $row=mysqli_fetch_assoc($result);
+    $CourseCode=$row['CourseCode'];
+    $CourseTitle=$row['CourseTitle'];
+    $Units=$row['Units'];
+    $id = $row['id'];
 
     ?>
 
-        <h2>Student Update Form</h2>
-
-        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
-
+      <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Course Form</title>
+          <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        </head>
+        <body>    
+      <h2>Course Registration Form</h2>
+        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="post">
           <fieldset>
-
-            <legend>Personal information:</legend>
-
-            Course Code:<br>
-
-            <input type="text" name="CourseCode" value="<?php echo $CourseCode; ?>">
-
-            <input type="hidden" name="user_id" value="<?php echo $id; ?>">
-
+            Course Code: <br>
+           <input type="text" name="CourseCode" required value="<?php echo $CourseCode;?>">
             <br>
 
-            CourseTitle:<br>
-
-            <input type="text" name="CourseTitle" value="<?php echo $CourseTitle; ?>">
-
+           Course Title: <br>
+            <input type="text" name="CourseTitle" required value="<?php echo $CourseTitle;?>">
             <br>
+            <input type="text" hidden name="id" required value="<?php echo $id;?>">
+            <br>
+           Units: <br>
+           <input type="number" name="Units" required value="<?php echo $Units;?>">
+            <br>
+                      
+           <!-- <input type="submit" name="Update" value="Update">   -->
+            <button class="btn btn-md btn-success" name="update" type="submit">submit</button>
+            </fieldset>    
+              </form>
 
-            Units:<br>
+          </body>
+          </html>
 
-            <input type="number" name="Units" value="<?php echo $Units; ?>">
+  
+ 
+  
 
-            <br><br>
 
-            <input type="submit" value="Update" name="update">
+          
 
-          </fieldset>
 
-        </form> 
 
-        </body>
-
-        </html> 
-
-    <?php
-
-    } else{ 
-
-        header('Location: view.php');
-
-    } 
-
-}
-
-?> 

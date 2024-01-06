@@ -1,20 +1,23 @@
 <?php
+$conn=mysqli_connect('localhost', 'root','', 'crud');
 
-$servername = "localhost";
-$dbuser = "root";
-$dbpass = "";
-$dbname = "crud";
+
+
+// $servername = "localhost";
+// $dbuser = "root";
+// $dbpass = "";
+// $dbname = "crud";
 
 //creating connection
-if(!$conn = mysqli_connect($servername, $dbuser, $dbpass, $dbname))
-{
+// if(!$conn = mysqli_connect($servername, $dbuser, $dbpass, $dbname))
+// {
 
-    die("failed to connect!");
-}
+//     die("failed to connect!");
+// }
 
 //checking connection
-if(!$conn){
-    die("Connection failed".mysqli_connect_error());
-}
-echo "Connected successfully";
+// if(!$conn){
+//     die("Connection failed".mysqli_connect_error());
+// }
+// echo "Connected successfully";
 ?>
